@@ -19,7 +19,7 @@
                     "id": "67d42ad2-2062-494d-adb2-964cec142a91",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "MultiTap"
+                    "interactions": "MultiTap(tapDelay=0.7)"
                 },
                 {
                     "name": "Look",

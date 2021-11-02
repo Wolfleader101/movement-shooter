@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 [RequireComponent(typeof(PlayerInput), typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour
@@ -77,6 +78,12 @@ public class FirstPersonController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
+        if (value.performed && value.interaction is MultiTapInteraction)
+        {
+            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
+            Debug.Log("Double Jump");
+        }
+
         if (value.started && characterController.isGrounded)
         {
             _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
