@@ -35,3 +35,12 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Ignore the auto-generated AOT compatibility dll.
+/Assets/Thirdparty/Sirenix/Assemblies/AOT/*
+
+# Ignore all unpacked demos.
+/Assets/Thirdparty/Sirenix/Demos/*
+
+# But keep the demo packages themselves.
+!/Assets/Thirdparty/Sirenix/Demos/*.unitypackage 
