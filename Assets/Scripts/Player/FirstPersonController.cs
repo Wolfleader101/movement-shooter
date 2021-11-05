@@ -80,13 +80,13 @@ public class FirstPersonController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext value)
     {
-        if (value.performed && value.interaction is MultiTapInteraction)
+        if (character.CanDoubleJump && value.performed && value.interaction is MultiTapInteraction)
         {
             _velocity.y = Mathf.Sqrt(character.JumpHeight * -2f * gravityScale);
             Debug.Log("Double Jump");
         }
 
-        if (value.started && characterController.isGrounded)
+        if (characterController.isGrounded && value.started)
         {
             _velocity.y = Mathf.Sqrt(character.JumpHeight * -2f * gravityScale);
         }

@@ -22,16 +22,17 @@ namespace ScriptableObjects.Characters
         private float maxStamina = 100f;
         
         
-        [SerializeField, BoxGroup("Movement")]
+        [HorizontalGroup("Movement", 1f, Title = "Movement")]
+        [SerializeField, BoxGroup("Movement/1", false)]
         private float movementSpeed = 10f;
         
-        [SerializeField, BoxGroup("Movement"), HorizontalGroup("Jump")]
+        [SerializeField, BoxGroup("Movement/1")]
         private float jumpHeight = 2f;
         
-        [SerializeField, BoxGroup("Movement"), HorizontalGroup("Jump")]
+        [SerializeField, BoxGroup("Movement/1")]
         private bool canDoubleJump = true;
         
-        [SerializeField, BoxGroup("Movement")]
+        [SerializeField, BoxGroup("Movement/1")]
         private float gravityScaleMultiplier = 1.5f;
         
         public float StartingHealth => startingHealth;
@@ -41,5 +42,6 @@ namespace ScriptableObjects.Characters
         public float MovementSpeed => movementSpeed;
         public float JumpHeight => jumpHeight;
         public float GravityScaleMultiplier => gravityScaleMultiplier;
+        public bool CanDoubleJump => canDoubleJump;
     }
 }
