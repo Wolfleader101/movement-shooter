@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects.Characters;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
@@ -12,13 +13,14 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
 
     [SerializeField] private CharacterController characterController;
-
-    [SerializeField] private float moveSpeed = 10f;
-
-    [SerializeField] private float jumpHeight = 2f;
-
     [SerializeField] private float gravityScale = -9.81f;
-    [SerializeField] private float gravityScaleMultiplier = 1.5f;
+
+    [SerializeField] private BaseCharacter character;
+    //[SerializeField] private float moveSpeed = 10f;
+
+  //  [SerializeField] private float jumpHeight = 2f;
+
+   // [SerializeField] private float gravityScaleMultiplier = 1.5f;
 
     private float _mouseX;
     private float _mouseY;
@@ -56,9 +58,9 @@ public class FirstPersonController : MonoBehaviour
         transform.Rotate(Vector3.up * _mouseX);
 
         Vector3 motion = transform.right * _xPos + transform.forward * _zPos;
-        characterController.Move(motion * (moveSpeed * Time.deltaTime));
+        characterController.Move(motion * (character.MovementSpeed * Time.deltaTime));
 
-        _velocity.y += (gravityScaleMultiplier * gravityScale) * Time.deltaTime;
+        _velocity.y += (character.GravityScaleMultiplier * gravityScale) * Time.deltaTime;
         characterController.Move(_velocity * Time.deltaTime);
     }
 
@@ -80,13 +82,13 @@ public class FirstPersonController : MonoBehaviour
     {
         if (value.performed && value.interaction is MultiTapInteraction)
         {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
+            _velocity.y = Mathf.Sqrt(character.JumpHeight * -2f * gravityScale);
             Debug.Log("Double Jump");
         }
 
         if (value.started && characterController.isGrounded)
         {
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravityScale);
+            _velocity.y = Mathf.Sqrt(character.JumpHeight * -2f * gravityScale);
         }
     }
 }
