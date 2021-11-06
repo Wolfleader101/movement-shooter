@@ -50,53 +50,25 @@ namespace ScriptableObjects.Inventory
 
             return TryAddItem(item, itemCount);
         }
-
+        
         private int TryAddItem(BaseItem item, int itemCount)
         {
-            if (_items.Count >= maxCapacity) return itemCount;
-
-            InventoryItem invItem;
-            while (itemCount > item.MaxStackSize)
+            while (true)
             {
                 if (_items.Count >= maxCapacity) return itemCount;
 
-                invItem = new InventoryItem(item, item.MaxStackSize);
+                var clamped = Mathf.Clamp(itemCount, 1, item.MaxStackSize);
+                var invItem = new InventoryItem(item, clamped);
                 _items.Add(invItem);
-                
-                OnItemAdded?.Invoke(invItem, item.MaxStackSize);
-                    
-                itemCount -= item.MaxStackSize;
+
+                OnItemAdded?.Invoke(invItem, clamped);
+
+                itemCount -= clamped;
+                if (itemCount != 0) continue;
+                return itemCount;
             }
-                
-            if (_items.Count >= maxCapacity) return itemCount;
-
-            invItem = new InventoryItem(item, itemCount);
-            _items.Add(invItem);
-
-            OnItemAdded?.Invoke(invItem, itemCount);
-            return 0;
-        }
-        
-        private int AttempToAddItem(BaseItem item, int itemCount)
-        {
-            if (_items.Count >= maxCapacity) return itemCount;
-
-            var clamped = Mathf.Clamp(itemCount, 1, item.MaxStackSize);
-            InventoryItem invItem = new InventoryItem(item, clamped);
-            _items.Add(invItem);
-            
-            OnItemAdded?.Invoke(invItem, clamped);
-
-            itemCount -= clamped;
-            if (itemCount != 0)
-            {
-                return AttempToAddItem(item, itemCount);
-            }
-
-            return itemCount;
         }
 
-        
 
         // public void RemoveItem(BaseItem item, int count)
         // {
