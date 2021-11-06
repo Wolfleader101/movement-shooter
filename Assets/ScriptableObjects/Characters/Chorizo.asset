@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04e161ac55e4ff38fd94dda6ce6c148, type: 3}
   m_Name: Chorizo
   m_EditorClassIdentifier: 
-  charName: 
+  startingHealth: 100
+  maxHealth: 100
+  startingStamina: 100
+  maxStamina: 100
+  movementSpeed: 10
+  jumpHeight: 2
+  canDoubleJump: 1
+  gravityScaleMultiplier: 1.5

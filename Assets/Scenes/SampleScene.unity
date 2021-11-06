@@ -304,10 +304,8 @@ MonoBehaviour:
   mouseSens: 10
   cameraTransform: {fileID: 963194228}
   characterController: {fileID: 197886979}
-  moveSpeed: 10
-  jumpHeight: 2
   gravityScale: -9.81
-  gravityScaleMultiplier: 1.5
+  character: {fileID: 11400000, guid: 82bc40b8d10454e40a7a0a8bc2127f87, type: 2}
 --- !u!136 &197886983
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ScriptableObjects.Characters;
@@ -9,19 +10,13 @@ using UnityEngine.InputSystem.Interactions;
 public class FirstPersonController : MonoBehaviour
 {
     [SerializeField] private float mouseSens = 10f;
-
     [SerializeField] private Transform cameraTransform;
-
     [SerializeField] private CharacterController characterController;
     [SerializeField] private float gravityScale = -9.81f;
-
     [SerializeField] private BaseCharacter character;
-    //[SerializeField] private float moveSpeed = 10f;
 
-  //  [SerializeField] private float jumpHeight = 2f;
-
-   // [SerializeField] private float gravityScaleMultiplier = 1.5f;
-
+    public event Action<bool> OnShootEvent;
+    
     private float _mouseX;
     private float _mouseY;
     private float _xRotation = 0f;
@@ -90,5 +85,10 @@ public class FirstPersonController : MonoBehaviour
         {
             _velocity.y = Mathf.Sqrt(character.JumpHeight * -2f * gravityScale);
         }
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        
     }
 }
