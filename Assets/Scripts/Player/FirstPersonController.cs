@@ -15,7 +15,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float gravityScale = -9.81f;
     [SerializeField] private BaseCharacter character;
 
-    public event Action<bool> OnShootEvent;
+    public event Action OnShootEvent;
     
     private float _mouseX;
     private float _mouseY;

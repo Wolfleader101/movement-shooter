@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableObjects.Items.Bullets;
+using UnityEngine;
 using UnityEngine.Internal;
 
 namespace ScriptableObjects.Items.Weapons
@@ -20,7 +21,16 @@ namespace ScriptableObjects.Items.Weapons
 
         [SerializeField] private bool isHitScan = true;
         public bool IsHitScan => isHitScan;
+
+        [SerializeField] private BaseBullet bullet;
+        public BaseBullet Bullet => bullet;
+
+        [SerializeField] private Transform firePoint;
+        public Transform FirePoint => firePoint;
         
+        [SerializeField] private Transform casingPoint;
+        public Transform CasingPoint => casingPoint;
+
         // shoot animation?
         // reload animation?
     }
