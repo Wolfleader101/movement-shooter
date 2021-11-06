@@ -28,7 +28,7 @@ namespace ScriptableObjects.Inventory
             
             if (_items.Find(itemInList => itemInList.Item.Equals(item)) == null)
             {
-                return TryAddItem(item, itemCount);
+                return AddNewItem(item, itemCount);
             }
 
             foreach (var itemInList in _items.Where(queuedItem => queuedItem.Item.Equals(item)))
@@ -48,10 +48,10 @@ namespace ScriptableObjects.Inventory
                 return 0;
             }
 
-            return TryAddItem(item, itemCount);
+            return AddNewItem(item, itemCount);
         }
         
-        private int TryAddItem(BaseItem item, int itemCount)
+        private int AddNewItem(BaseItem item, int itemCount)
         {
             while (true)
             {
@@ -68,23 +68,32 @@ namespace ScriptableObjects.Inventory
                 return itemCount;
             }
         }
+        
+        public int RemoveItem(BaseItem item, int itemCount)
+        {
+            if (!_items.Any(invItem => invItem.Item.Equals(item))) return itemCount;
+
+            var inventoryItems = _items.FindAll(invItem => invItem.Item.Equals(item)).OrderByDescending(invItem => invItem.ItemCount).ToList();
+            
+            foreach (var inventoryItem in inventoryItems)
+            {
+                if (inventoryItem.ItemCount - itemCount <= 0)
+                {
+                    itemCount -= inventoryItem.ItemCount;
+                    _items.Remove(inventoryItem);
+                    OnItemRemoved?.Invoke(inventoryItem, itemCount);
+                    continue;
+                } 
+                
+                inventoryItem.ItemCount -= itemCount;
+                itemCount -= itemCount;
+                OnItemRemoved?.Invoke(inventoryItem, itemCount);
+                break;
+            }
 
 
-        // public void RemoveItem(BaseItem item, int count)
-        // {
-        //     if (!_items.ContainsKey(item)) return;
-        //
-        //     if (_items[item] - count <= 0)
-        //     {
-        //         _items.Remove(item);
-        //         OnItemRemoved?.Invoke(item, count);
-        //         return;
-        //     }
-        //
-        //     _items[item] -= count;
-        //     OnItemRemoved?.Invoke(item, count);
-        //     return;
-        // }
+            return itemCount;
+        }
     
     }
 }
