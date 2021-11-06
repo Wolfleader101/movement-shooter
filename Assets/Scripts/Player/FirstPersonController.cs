@@ -19,7 +19,7 @@ public class FirstPersonController : MonoBehaviour
     // factors like moving, jumping, crouching, ADS will all improve said accuracy
     // Weapon's also have their own max accuracy which is determined by the type of gun and its attachments
     private float _shootingAccuracy = 0.75f;
-    public event Action<bool, float> OnShootEvent;
+    public event Action<bool, bool, float> OnShootEvent;
     
     private float _mouseX;
     private float _mouseY;
@@ -49,12 +49,10 @@ public class FirstPersonController : MonoBehaviour
         }
 
         _xRotation -= _mouseY;
-        _yRotation -= _mouseX;
+        _yRotation -= -_mouseX;
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
-        cameraTransform.localRotation = Quaternion.Euler(_xRotation, 0, 0f);
-
-        transform.Rotate(Vector3.up * _mouseX);
+        transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
 
         Vector3 motion = transform.right * _xPos + transform.forward * _zPos;
         characterController.Move(motion * (character.MovementSpeed * Time.deltaTime));
@@ -93,10 +91,10 @@ public class FirstPersonController : MonoBehaviour
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        bool holdingShoot = context.interaction is HoldInteraction;
-        if (context.performed)
-        {
-            OnShootEvent?.Invoke(holdingShoot, _shootingAccuracy);
-        }
+        bool holdingShoot = context.interaction is HoldInteraction && context.performed;
+        bool shooting = context.started || context.performed;
+        Debug.Log(holdingShoot);
+        
+        OnShootEvent?.Invoke(shooting, holdingShoot, _shootingAccuracy);
     }
 }

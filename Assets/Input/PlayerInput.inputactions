@@ -43,7 +43,7 @@
                     "id": "0fefc277-2bf8-4194-ae42-2e0e65564794",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Hold"
+                    "interactions": "Hold(duration=0.15,pressPoint=0.1)"
                 },
                 {
                     "name": "ADS",

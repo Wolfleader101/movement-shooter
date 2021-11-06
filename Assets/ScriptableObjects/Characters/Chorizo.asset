@@ -17,6 +17,6 @@ MonoBehaviour:
   startingStamina: 100
   maxStamina: 100
   movementSpeed: 10
-  jumpHeight: 2
+  jumpHeight: 4
   canDoubleJump: 1
-  gravityScaleMultiplier: 1.5
+  gravityScaleMultiplier: 1.25

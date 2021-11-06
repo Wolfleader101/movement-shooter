@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6679db8b18504a6dbbfe24ebe338c3d7, type: 3}
   m_Name: Rifle
   m_EditorClassIdentifier: 
-  itemName: 
-  description: 
-  maxStackSize: 32
-  prefab: {fileID: 0}
+  itemName: Rifle
+  description: A shoddy full auto tester rifle
+  maxStackSize: 1
+  prefab: {fileID: 5691234524783076853, guid: 4e96bcab071530741a69be418457bb37, type: 3}
   sprite: {fileID: 0}
   stackedSprite: {fileID: 0}
-  maxStackSize: 1
+  ammoCapacity: 30
+  bulletsToFire: 1
+  firingType: 2
+  fireRate: 0.1
+  reloadTime: 2.3
+  isHitScan: 1
+  bullet: {fileID: 0}
+  firePoint: {fileID: 0}
+  casingPoint: {fileID: 0}
