@@ -4,20 +4,23 @@ namespace ScriptableObjects.Items
 {
     public abstract class BaseItem : ScriptableObject
     {
-        [SerializeField] private string itemName;
+        [SerializeField] protected string itemName;
         public string ItemName => itemName;
     
-        [SerializeField, Multiline] private string description;
+        [SerializeField, Multiline] protected string description;
         public string Description => description;
 
-        [SerializeField] private int maxStackSize = 32;
+        [SerializeField] protected int maxStackSize = 32;
         public int MaxStackSize => maxStackSize;
-    
 
-        //[SerializeField] private Sprite sprite;
-        //public Sprite Sprite => sprite;
 
-        //[SerializeField] private Sprite stackedSprite;
-        //public Sprite StackedSprite => stackedSprite;
+        [SerializeField] protected GameObject prefab;
+        public GameObject Prefab => prefab;
+        
+        [SerializeField] protected Sprite sprite;
+        public Sprite Sprite => sprite;
+
+        [SerializeField] protected Sprite stackedSprite;
+        public Sprite StackedSprite => stackedSprite;
     }
 }
