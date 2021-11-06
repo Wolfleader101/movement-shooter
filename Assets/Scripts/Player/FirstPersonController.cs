@@ -53,6 +53,8 @@ public class FirstPersonController : MonoBehaviour
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
         // fix rotation LMAO
+        // ez fix
+        // just rotate torso and head NOT whole game object
         transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
 
         Vector3 motion = transform.right * _xPos + transform.forward * _zPos;
