@@ -9,38 +9,38 @@ namespace ScriptableObjects.Inventory
     [CreateAssetMenu(menuName = "Inventory")]
     public class Inventory : ScriptableObject
     {
-         public event Action<BaseItem, int> OnItemAdded;
-        public event Action<BaseItem, int> OnItemRemoved;
+         public event Action<InventoryItem, int> OnItemAdded;
+        public event Action<InventoryItem, int> OnItemRemoved;
 
         [SerializeField] private int maxCapacity = 36;
         public int MaxCapacity => maxCapacity;
 
-        private List<Dictionary<BaseItem, int>> _items;
-        public List<Dictionary<BaseItem, int>> Items => _items;
+        private List<InventoryItem> _items;
+        public List<InventoryItem> Items => _items;
 
         public void Init()
         {
-            _items = new List<Dictionary<BaseItem, int>>(maxCapacity);
+            _items = new List<InventoryItem>(maxCapacity);
         }
 
         public int AddItem(BaseItem item, int itemCount)
         {
             
-            if (_items.Find(itemInDict => itemInDict.ContainsKey(item)) == null)
+            if (_items.Find(itemInList => itemInList.Item.Equals(item)) == null)
             {
                 return TryAddItem(item, itemCount);
             }
 
-            foreach (var itemDict in _items.Where(queuedItem => queuedItem.ContainsKey(item)))
+            foreach (var itemInList in _items.Where(queuedItem => queuedItem.Item.Equals(item)))
             {
                 // if its already at max cap
-                if (itemDict[item] >= item.MaxStackSize) continue;
+                if (itemInList.ItemCount >= item.MaxStackSize) continue;
                 
-                int maxIncrement = item.MaxStackSize - itemDict[item];
-                int clamped = Mathf.Clamp(itemCount, 1, maxIncrement);
+                var maxIncrement = item.MaxStackSize - itemInList.ItemCount;
+                var clamped = Mathf.Clamp(itemCount, 1, maxIncrement);
                 
-                itemDict[item] += clamped;
-                OnItemAdded?.Invoke(item, clamped);
+                itemInList.ItemCount += clamped;
+                OnItemAdded?.Invoke(itemInList, clamped);
 
                 itemCount -= clamped;
                 if (itemCount != 0) continue;
@@ -54,34 +54,48 @@ namespace ScriptableObjects.Inventory
         private int TryAddItem(BaseItem item, int itemCount)
         {
             if (_items.Count >= maxCapacity) return itemCount;
+
+            InventoryItem invItem;
             while (itemCount > item.MaxStackSize)
             {
                 if (_items.Count >= maxCapacity) return itemCount;
-                    
-                _items.Add(new Dictionary<BaseItem, int>()
-                {
-                    {
-                        item, item.MaxStackSize
-                    }
-                });
+
+                invItem = new InventoryItem(item, item.MaxStackSize);
+                _items.Add(invItem);
                 
-                OnItemAdded?.Invoke(item, item.MaxStackSize);
+                OnItemAdded?.Invoke(invItem, item.MaxStackSize);
                     
                 itemCount -= item.MaxStackSize;
             }
                 
             if (_items.Count >= maxCapacity) return itemCount;
-                
-            _items.Add(new Dictionary<BaseItem, int>()
-            {
-                {
-                    item, itemCount
-                }
-            });
 
-            OnItemAdded?.Invoke(item, itemCount);
+            invItem = new InventoryItem(item, itemCount);
+            _items.Add(invItem);
+
+            OnItemAdded?.Invoke(invItem, itemCount);
             return 0;
         }
+        
+        private int AttempToAddItem(BaseItem item, int itemCount)
+        {
+            if (_items.Count >= maxCapacity) return itemCount;
+
+            var clamped = Mathf.Clamp(itemCount, 1, item.MaxStackSize);
+            InventoryItem invItem = new InventoryItem(item, clamped);
+            _items.Add(invItem);
+            
+            OnItemAdded?.Invoke(invItem, clamped);
+
+            itemCount -= clamped;
+            if (itemCount != 0)
+            {
+                return AttempToAddItem(item, itemCount);
+            }
+
+            return itemCount;
+        }
+
         
 
         // public void RemoveItem(BaseItem item, int count)
