@@ -52,6 +52,7 @@ public class FirstPersonController : MonoBehaviour
         _yRotation -= -_mouseX;
         _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
 
+        // fix rotation LMAO
         transform.localRotation = Quaternion.Euler(_xRotation, _yRotation, 0f);
 
         Vector3 motion = transform.right * _xPos + transform.forward * _zPos;
@@ -93,8 +94,7 @@ public class FirstPersonController : MonoBehaviour
     {
         bool holdingShoot = context.interaction is HoldInteraction && context.performed;
         bool shooting = context.started || context.performed;
-        Debug.Log(holdingShoot);
-        
+
         OnShootEvent?.Invoke(shooting, holdingShoot, _shootingAccuracy);
     }
 }

@@ -72,7 +72,7 @@ public class WeaponHandler : MonoBehaviour
         var ray = _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(ray, out var hit))
         {
-            Debug.DrawRay(ray.origin, transform.forward * hit.distance, Color.red, 1.5f);
+            Debug.DrawRay(ray.origin, transform.forward * hit.distance, Color.red, 0.5f);
             Debug.Log($"Hit {hit.collider.gameObject.name}");
         }
     }
