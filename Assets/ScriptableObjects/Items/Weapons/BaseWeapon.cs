@@ -4,6 +4,13 @@ using UnityEngine.Internal;
 
 namespace ScriptableObjects.Items.Weapons
 {
+    public enum FiringType
+    {
+        Tap,
+        Burst,
+        Auto
+    }
+    
     [CreateAssetMenu(fileName = "Weapon", menuName = "Items/Weapon")]
     public class BaseWeapon : BaseItem
     {
@@ -12,6 +19,9 @@ namespace ScriptableObjects.Items.Weapons
 
         [SerializeField] private int bulletsToFire = 1;
         public int BulletsToFire => bulletsToFire;
+
+        [SerializeField] private FiringType firingType = FiringType.Tap;
+        public FiringType FiringType => firingType;
     
         [SerializeField] private float fireRate = 0.1f; // fire rate in seconds. (how often to shoot a bullet)
         public float FireRate => fireRate;

@@ -27,7 +27,7 @@ public class WeaponHandler : MonoBehaviour
     }
 
 
-    private void Shoot()
+    private void Shoot(bool holdingShoot, float playerAccuracy)
     {
         if (weapon.IsHitScan)
         {
